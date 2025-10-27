@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import subprocess
 import sys
-from datetime import datetime
 from pathlib import Path
 from shared.logger import logger
 from shared.misc_helper import get_day
