@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 from pathlib import Path
 from time import time_ns
 from typing import Callable, Literal
@@ -83,3 +84,37 @@ def input_data_to_list(input_data: str, splitter: str = '\n') -> list:
     :return: list of strings
     """
     return input_data.split(splitter)
+
+
+def get_day(args, day_num: int | None) -> int | None:
+    """
+    Either use the provided day from parameter
+     or provided day from shell arguments
+     or today's date when in December
+    Check if the day is in the advent range
+
+    :param args: forwarded args from shell
+    :param day_num: parameter to overwrite shell arguments and auto-detection
+    :return: day when valid, None otherwise
+    """
+    if day_num:
+        pass
+    else:
+        if len(args) >= 1:
+            try:
+                day_num = int(args[1])
+            except ValueError:
+                logger.error('Please provide a valid day number.')
+                return None
+        else:
+            now = datetime.now()
+            if now.month == 12:
+                day_num = now.day
+            else:
+                logger.error('🗓️ Not December! Please specify a day manually.')
+                return None
+    if day_num in range(1, 25):
+        return day_num
+    else:
+        logger.error('🗓️ Day not in range! Please specify a day manually.')
+        return None

@@ -82,7 +82,7 @@ def __create_new_year(year: int, initialize_git: bool = True) -> None:
             subprocess.run(['git', 'add', '.'], cwd=new_aoc_repo_dir, check=True)
             subprocess.run(['git', 'commit', '-m', f'Initialize Advent of Code {year}'], cwd=new_aoc_repo_dir, check=True)
 
-        logger.info('✅ AoC %s repo created with Day 1 template!', year)
+        logger.info('✅ AoC %s repo created', year)
         return None
 
     except Exception as e:
@@ -103,7 +103,7 @@ def __create_new_year(year: int, initialize_git: bool = True) -> None:
 if __name__ == '__main__':
     init_git = True
     year_num = None
-    # year_num = 1  # year overwrite
+    year_num = 2025  # year overwrite
     if year_num:
         pass
     else:

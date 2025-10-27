@@ -6,7 +6,7 @@ sys.path.append(str(Path(__file__).resolve().parent.parent))
 import importlib
 from shared.logger import logger
 from shared.create_new_day import create_day
-from shared.misc_helper import get_day
+from shared.utils import get_day
 # import logging
 # logger.setLevel(logging.DEBUG)
 

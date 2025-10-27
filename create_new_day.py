@@ -3,7 +3,7 @@ import subprocess
 import sys
 from pathlib import Path
 from shared.logger import logger
-from shared.misc_helper import get_day
+from shared.utils import get_day
 
 def create_day(day: int) -> None:
     """
