@@ -45,8 +45,16 @@ def solve_puzzle_part(puzzle: Puzzle, solver_func: Callable, part: Literal['a', 
     start = time_ns()
     solution = solver_func(input_data)
     end = time_ns()
-    logger.info(f'Answer part {part}: {solution}')
-    logger.info(f'Solution takes {(end - start) / 1e9}s to complete')
+    elapsed = (end - start) / 1e9
+    if elapsed >= 1:
+        formatted_time = f'{elapsed:.3f} s'
+    elif elapsed >= 1e-3:
+        formatted_time = f'{elapsed * 1e3:.3f} ms'
+    else:
+        formatted_time = f'{elapsed * 1e6:.3f} µs'
+    print()
+    logger.info(f'\033[1mAnswer part {part}: {solution}\033[22m')
+    logger.info(f'Solution takes {formatted_time} to complete')
     if solution and (logger.getEffectiveLevel() != logging.DEBUG) and (not example_data) and not (puzzle.answered(part)):
         setattr(puzzle, f"answer_{part}", solution)
 
