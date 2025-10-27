@@ -59,3 +59,11 @@ def solve_puzzle_part(puzzle: Puzzle, solver_func: Callable, part: Literal['a', 
         setattr(puzzle, f"answer_{part}", solution)
 
     return None
+
+
+def input_data_to_list(input_data: str, splitter: str = '\n') -> list:
+    """
+    format the input_data into a list.
+    without overwriting splitter, it will split the input_data into lines
+    """
+    return input_data.split(splitter)
