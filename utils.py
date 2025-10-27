@@ -18,11 +18,11 @@ def get_input_data(puzzle: Puzzle, example_data: bool = False) -> str:
     """
     logger.info('Loading puzzle data...')
 
-    aoc_dir = Path(__file__).parent.parent / 'aoc'
+    inputs_dir = Path(__file__).parent.parent / 'aoc' / 'inputs'
     if example_data:
-        input_data_file = aoc_dir / f'day{puzzle.day:02}_example.txt'
+        input_data_file = inputs_dir / f'day{puzzle.day:02}_example.txt'
     else:
-        input_data_file = aoc_dir / f'day{puzzle.day:02}.txt'
+        input_data_file = inputs_dir / f'day{puzzle.day:02}.txt'
     if input_data_file.exists():
         input_data = input_data_file.read_text()
     else:
