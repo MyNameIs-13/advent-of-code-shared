@@ -10,7 +10,7 @@ EXAMPLE_DATA = True  # comment out to use real data
 
 def solve_part_a(input_data: str) -> str:
     # TODO: implement solution for part A
-    result = 0
+    result = None
     for line in ph.input_data_to_list(input_data):
         logger.debug(line)
     return str(result)
@@ -18,7 +18,7 @@ def solve_part_a(input_data: str) -> str:
 
 def solve_part_b(input_data: str) -> str:
     # TODO: implement solution for part B
-    result = 0
+    result = None
     for line in ph.input_data_to_list(input_data):
         logger.debug(line)
     return str(result)
@@ -36,7 +36,7 @@ def main() -> None:
     input_data = ph.get_input_data(puzzle, example_data=EXAMPLE_DATA)
 
     for part, solve_func in [('a', solve_part_a), ('b', solve_part_b)]:
-        ph.solve_puzzle_part(puzzle, solve_func, part, input_data, example_data=EXAMPLE_DATA)
+        ph.solve_puzzle_part(puzzle, solve_func, part, input_data, submit_solution=EXAMPLE_DATA)
 
     return None
 

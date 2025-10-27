@@ -4,6 +4,12 @@ from shared.logger import logger
 
 
 def get_day(args, day_num: int | None) -> int | None:
+    """
+
+    :param args:
+    :param day_num:
+    :return:
+    """
     if day_num:
         pass
     else:
