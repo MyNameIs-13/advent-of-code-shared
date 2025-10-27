@@ -18,6 +18,7 @@ Contains centralized AoC Year generator and a shared library which is used as su
     ```
     advent-of-code-YYYY/
     ├── .git/
+    ├── .venv/ -> ./.venv
     ├── aoc/
     │   ├── days/
     │   │   └── __init__.py  
@@ -30,9 +31,14 @@ Contains centralized AoC Year generator and a shared library which is used as su
     │   ├── logger.py
     │   ├── utils.py
     │   └── ...
+    ├── .gitignore
+    ├── requirements.txt
     └── README.md
     ```
 
 ## Shared
 - Communication with AoC website based on https://github.com/wimglenn/advent-of-code-data
 - token must be set in `~/.config/aocd_token` https://github.com/wimglenn/advent-of-code-wim/issues/1
+- provides helper functions to solve puzzles faster i.e.:
+  - template for each daily puzzle which can be create with create_new_day.py (shared) or run_or_create_day.py (aoc)
+  - for more have a look to the templates/day.py.tpl and utils.py
