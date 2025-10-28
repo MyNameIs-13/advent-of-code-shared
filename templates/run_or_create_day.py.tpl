@@ -23,6 +23,8 @@ def __run_or_create_day(day: int):
     except ModuleNotFoundError:
         logger.warning(f'❌ Day {day:02} not found. Creating from template...')
         create_day(day)
+        module = importlib.import_module(module_name)
+        module.main()
 
 
 if __name__ == '__main__':
