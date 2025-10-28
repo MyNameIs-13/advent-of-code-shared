@@ -35,8 +35,8 @@ def main() -> None:
     puzzle = Puzzle(year=year, day=day)
     input_data = utils.get_input_data(puzzle, example_data=EXAMPLE_DATA)
 
-    for part, solve_func in [('a', solve_part_a), ('b', solve_part_b)]:
-        utils.solve_puzzle_part(puzzle, solve_func, part, input_data, submit_solution=EXAMPLE_DATA)
+    utils.solve_puzzle_part(puzzle, solve_part_a, 'a', input_data, submit_solution=(not EXAMPLE_DATA))
+    utils.solve_puzzle_part(puzzle, solve_part_b, 'b', input_data, submit_solution=(not EXAMPLE_DATA))
 
     return None
 
