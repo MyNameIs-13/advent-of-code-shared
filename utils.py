@@ -120,7 +120,7 @@ def get_day(args, day_num: int | None) -> int | None:
         return None
 
 
-def create_grid(input_data: str):
+def get_grid(input_data: str) -> list:
     """
     Format an input string into a grid so that the rows and columns can be processed with x, y coordinates
 
