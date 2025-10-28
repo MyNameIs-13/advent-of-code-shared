@@ -118,3 +118,34 @@ def get_day(args, day_num: int | None) -> int | None:
     else:
         logger.error('🗓️ Day not in range! Please specify a day manually.')
         return None
+
+
+def create_grid(input_data: str):
+    """
+    Format an input string into a grid so that the rows and columns can be processed with x, y coordinates
+
+    for i in range(rows):
+        for j in range(cols):
+        x, y = i, j
+
+    # there are 8 directions: (dx, dy) to go through the grid
+    DIRECTIONS = [
+        # forward
+        (1, 0),  # down
+        (0, 1),  # right
+        (1, -1),  # down-left
+        (1, 1),  # down-right
+        # backward
+        (-1, 0),  # up
+        (0, -1),  # left
+        (-1, -1),  # up-left
+        (-1, 1)  # up-right
+    ]
+
+    :param input_data: str with input
+    :return: lists in list | rows and columns
+    """
+    grid = []
+    for line in input_data.split('\n'):
+        grid.append([c for c in line])
+    return grid
