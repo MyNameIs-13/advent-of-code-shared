@@ -7,6 +7,18 @@ from typing import Callable, Literal
 from shared.logger import logger
 from aocd.models import Puzzle
 
+DIRECTIONS = {
+    # dy , dx
+    'down': (1, 0),
+    'up': (-1, 0),
+    'right': (0, 1),
+    'left': (0, -1),
+    'down-left': (1, -1),
+    'down-right': (1, 1),
+    'up-left': (-1, -1),
+    'up-right': (-1, 1)
+}
+
 def get_input_data(puzzle: Puzzle, example_data: bool = False) -> str:
     """
     Get the user specific or example input data from the already existing file or from the website
@@ -124,23 +136,13 @@ def get_grid(input_data: str) -> list:
     """
     Format an input string into a grid so that the rows and columns can be processed with x, y coordinates
 
-    for i in range(rows):
-        for j in range(cols):
-        x, y = i, j
-
-    # there are 8 directions: (dx, dy) to go through the grid
-    DIRECTIONS = [
-        # forward
-        (1, 0),  # down
-        (0, 1),  # right
-        (1, -1),  # down-left
-        (1, 1),  # down-right
-        # backward
-        (-1, 0),  # up
-        (0, -1),  # left
-        (-1, -1),  # up-left
-        (-1, 1)  # up-right
-    ]
+    unfortunately list structures require to use y (rows) first
+    rows = len(grid)
+    cols = len(grid[0])
+    for y in range(rows):
+        for x in range(cols):
+            c = grid[y][x]
+            if c == '^':
 
     :param input_data: str with input
     :return: lists in list | rows and columns
