@@ -56,7 +56,7 @@ def __create_new_year(year: int, initialize_git: bool = True) -> None:
             '- Open this folder in PyCharm, then select the shared interpreter if symlink has not been created.'
         ]
         (new_aoc_repo_dir / 'README.md').write_text('\n'.join(readme_text))
-        (new_aoc_repo_dir / '.gitignore').write_text('.idea/\n__pycache__/\ninputs/\n')
+        (new_aoc_repo_dir / '.gitignore').write_text('.idea/\n__pycache__/\ninputs/\n.venv/\n')
         (new_aoc_repo_dir / '.requirements.txt').write_text('advent-of-code-data==2.1.0')
 
         # ----------------------------------------------------------------
