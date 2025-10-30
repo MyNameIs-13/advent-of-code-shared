@@ -80,8 +80,8 @@ def solve_puzzle_part(puzzle: Puzzle, solver_func: Callable, part: Literal['a', 
     print()
     logger.info(f'\033[1mAnswer part {part}: {solution}\033[22m')
     logger.info(f'Solution takes {formatted_time} to complete')
-    if (solution and solution != 'None') and (logger.getEffectiveLevel() != logging.DEBUG) and submit_solution and not (puzzle.answered(part)):
-        setattr(puzzle, f"answer_{part}", solution)
+    if (solution and solution != 'None') and (logger.getEffectiveLevel() != logging.DEBUG) and submit_solution:
+        setattr(puzzle, f'answer_{part}', solution)
 
     return None
 
