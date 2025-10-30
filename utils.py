@@ -72,11 +72,11 @@ def solve_puzzle_part(puzzle: Puzzle, solver_func: Callable, part: Literal['a', 
     end = time_ns()
     elapsed = (end - start) / 1e9
     if elapsed >= 1:
-        formatted_time = f'{elapsed:.3f} s'
+        formatted_time = f'{elapsed:.3f}s'
     elif elapsed >= 1e-3:
-        formatted_time = f'{elapsed * 1e3:.3f} ms'
+        formatted_time = f'{elapsed * 1e3:.3f}ms'
     else:
-        formatted_time = f'{elapsed * 1e6:.3f} µs'
+        formatted_time = f'{elapsed * 1e6:.3f}µs'
     print()
     logger.info(f'\033[1mAnswer part {part}: {solution}\033[22m')
     logger.info(f'Solution takes {formatted_time} to complete')
