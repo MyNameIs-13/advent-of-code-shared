@@ -6,7 +6,9 @@ import logging
 logger.setLevel(logging.DEBUG)  # comment out to disable debug logging real data
 
 EXAMPLE_DATA = False
-EXAMPLE_DATA = True  # comment out to use real data
+EXAMPLE_DATA = True  # overwrite
+SUBMIT = True
+# SUBMIT = False  # overwrite
 
 def solve_part_a(input_data: str) -> str:
     # TODO: implement solution for part A
@@ -33,10 +35,9 @@ def main() -> None:
     day = {day}
     logger.info(f'🎄 Running puzzle day {day:02}...')
     puzzle = Puzzle(year=year, day=day)
-    input_data = utils.get_input_data(puzzle, example_data=EXAMPLE_DATA)
 
-    utils.solve_puzzle_part(puzzle, solve_part_a, 'a', input_data, submit_solution=(not EXAMPLE_DATA))
-    utils.solve_puzzle_part(puzzle, solve_part_b, 'b', input_data, submit_solution=(not EXAMPLE_DATA))
+    utils.solve_puzzle_part(puzzle, solve_part_a, 'a', example_data=EXAMPLE_DATA, submit_solution=SUBMIT)
+    utils.solve_puzzle_part(puzzle, solve_part_b, 'b', example_data=EXAMPLE_DATA, submit_solution=SUBMIT)
 
     return None
 
