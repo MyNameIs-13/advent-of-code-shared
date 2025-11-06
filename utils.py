@@ -164,3 +164,18 @@ def get_grid(input_data: str) -> list:
     for line in input_data.split('\n'):
         grid.append([c for c in line])
     return grid
+
+
+def in_bounds(y: int, x: int, grid: list) -> bool:
+    """
+    Check if the provided grid location is inside the bounds of the grid
+
+    :param y: y coordinate (row number) of the point in the grid that should be tested
+    :param x: x coordinate (column  position) of the point in the grid that should be tested
+    :param grid: the grid that should be checked
+    :return: True when point is in bounds, False otherwise
+    """
+    rows = len(grid)
+    cols = len(grid[0])
+    return 0 <= y < cols and 0 <= x < rows
+
