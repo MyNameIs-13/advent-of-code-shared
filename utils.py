@@ -179,3 +179,6 @@ def in_bounds(y: int, x: int, grid: list) -> bool:
     cols = len(grid[0])
     return 0 <= y < cols and 0 <= x < rows
 
+
+def flatten_list(list_to_flatten: list) -> list:
+    return [x for sublist in list_to_flatten for x in (sublist if isinstance(sublist, list) else [sublist])]
