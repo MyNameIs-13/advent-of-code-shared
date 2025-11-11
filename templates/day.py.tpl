@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
+import logging
+
 from aocd.models import Puzzle
+
 from shared import utils
 from shared.logger import logger
-import logging
+
 logger.setLevel(logging.DEBUG)  # comment out to disable debug logging real data
 
 EXAMPLE_DATA = False
@@ -33,7 +36,7 @@ def main() -> None:
     """
     year = {year}
     day = {day}
-    logger.info(f'🎄 Running puzzle day {day:02}...')
+    logger.info('🎄 Running puzzle day {day:02}...')
     puzzle = Puzzle(year=year, day=day)
 
     utils.solve_puzzle_part(puzzle, solve_part_a, 'a', example_data=EXAMPLE_DATA, submit_solution=SUBMIT)

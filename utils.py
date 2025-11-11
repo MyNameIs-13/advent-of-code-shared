@@ -4,8 +4,8 @@ from pathlib import Path
 from time import time_ns
 from typing import Callable, Literal
 
-from shared.logger import logger
 from aocd.models import Puzzle
+from shared.logger import logger
 
 DIRECTIONS = {
     # dy , dx
@@ -13,6 +13,22 @@ DIRECTIONS = {
     'up': (-1, 0),
     'right': (0, 1),
     'left': (0, -1),
+    'down-left': (1, -1),
+    'down-right': (1, 1),
+    'up-left': (-1, -1),
+    'up-right': (-1, 1)
+}
+
+STRAIGHT_DIRECTIONS = {
+    # dy , dx
+    'down': (1, 0),
+    'up': (-1, 0),
+    'right': (0, 1),
+    'left': (0, -1),
+}
+
+DIAGONAL_DIRECTIONS = {
+    # dy , dx
     'down-left': (1, -1),
     'down-right': (1, 1),
     'up-left': (-1, -1),
