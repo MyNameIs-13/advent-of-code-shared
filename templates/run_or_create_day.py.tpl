@@ -4,9 +4,11 @@ from pathlib import Path
 
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 import importlib
-from shared.logger import logger
+
 from shared.create_new_day import create_day
+from shared.logger import logger
 from shared.utils import get_day
+
 # import logging
 # logger.setLevel(logging.DEBUG)
 
