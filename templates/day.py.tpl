@@ -6,12 +6,15 @@ from aocd.models import Puzzle
 from shared import utils
 from shared.logger import logger
 
-logger.setLevel(logging.DEBUG)  # comment out to disable debug logging real data
-
+logger.setLevel(logging.INFO)
 EXAMPLE_DATA = False
-EXAMPLE_DATA = True  # overwrite
 SUBMIT = True
-# SUBMIT = False  # overwrite
+
+# HACK: Overwrites
+# SUBMIT = False
+logger.setLevel(logging.DEBUG)
+EXAMPLE_DATA = True
+
 
 def solve_part_a(input_data: str) -> str:
     # TODO: implement solution for part A

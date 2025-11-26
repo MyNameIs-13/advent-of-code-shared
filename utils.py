@@ -1,10 +1,12 @@
 import logging
+from collections import namedtuple
 from datetime import datetime
 from pathlib import Path
 from time import time_ns
 from typing import Callable, Literal
 
 from aocd.models import Puzzle
+
 from shared.logger import logger
 
 DIRECTIONS = {
@@ -34,11 +36,93 @@ DIAGONAL_DIRECTIONS = {
     'up-left': (-1, -1),
     'up-right': (-1, 1)
 }
-
 SMALL_LETTER = ('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z')
 CAPITAL_LETTER = ('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z')
 NUMBERS_STR = ('1', '2', '3', '4', '5', '6', '7', '8', '9', '0')
 NUMBERS_INT = (1, 2, 3, 4, 5, 6, 7, 8, 9, 0)
+
+
+Point = namedtuple("Point", ("y", "x"))
+
+
+class Grid:
+    def __init__(self, input_data: str, as_int: bool = False):
+        """
+        Initialize a Grid from input data.
+
+        :param input_data: The input string representing the grid.
+        :param parse_func: A function that takes a character and returns an integer.
+                            Defaults to converting digits to integers, and leaves
+                            other characters as strings.
+        """
+        self.grid = []
+        for line in input_data.split('\n'):
+            line = line.strip()  # Optionally remove leading/trailing whitespace
+            if not line:
+                continue  # Skip empty lines
+            if as_int:
+                self.grid.append([int(c) if c.isdigit() else None for c in line])
+            else:
+                self.grid.append([c for c in line])
+        if self.grid and not all(len(row) == len(self.grid[0]) for row in self.grid):
+            raise ValueError("All rows must have the same length")
+
+    def __repr__(self):
+        return f"Grid({self.grid})"
+
+    def __getitem__(self, p: Point) -> str | None:
+        """
+        Retrieve the parsed value at the given Point in the Grid.
+
+        :param p: A Point instance with `y` and `x` attributes.
+        :return: The parsed value at (p.y, p.x) if in bounds, otherwise None.
+        """
+        if self.in_bounds(p):
+            return self.grid[p.y][p.x]
+        return None
+
+    @property
+    def rows(self) -> int:
+        """Get the number of rows in the grid."""
+        return len(self.grid)
+
+    @property
+    def cols(self) -> int:
+        """Get the number of columns in the grid."""
+        return len(self.grid[0]) if self.grid else 0
+
+    def in_bounds(self, p: Point) -> bool:
+        """
+        Check if the Point is within the bounds of the grid.
+
+        :param p: A Point instance with `y` and `x` attributes.
+        :return: True if the Point is within bounds, False otherwise.
+        """
+        return 0 <= p.y < self.rows and 0 <= p.x < self.cols
+
+    def get_neighbors(self, p: Point, include_straight: bool = True, include_diagonal: bool = False) -> set:
+        """
+        Get all valid neighbors of a Point in the grid, based on direction settings.
+
+        :param p: A Point instance with `y` and `x` attributes.
+        :param include_straight: Include straight-direction neighbors (up, down, left, right).
+        :param include_diagonal: Include diagonal-direction neighbors.
+        :return: A set of `Point` objects representing valid neighboring positions.
+        """
+        directions = []
+        if include_straight:
+            directions.extend(STRAIGHT_DIRECTIONS.values())
+        if include_diagonal:
+            directions.extend(DIAGONAL_DIRECTIONS.values())
+        if not directions:
+            raise ValueError("include_straight or include_diagonal must be True")
+
+        neighbors = set()
+        for dy, dx in directions:
+            neighbor = Point(p.y + dy, p.x + dx)
+            if self.in_bounds(neighbor):
+                neighbors.add(neighbor)
+        return neighbors
 
 
 def __get_input_data(puzzle: Puzzle, example_data: bool = False, part_b: bool = False) -> str:
@@ -110,7 +194,7 @@ def solve_puzzle_part(puzzle: Puzzle, solver_func: Callable, part: Literal['a', 
     logger.info(f'Solution takes {formatted_time} to complete')
     if (solution and solution != 'None') and (logger.getEffectiveLevel() != logging.DEBUG) and submit_solution and (not example_data):
         setattr(puzzle, f'answer_{part}', solution)
-    print()        
+    print()
 
     return None
 
@@ -161,6 +245,13 @@ def get_day(args, day_num: int | None) -> int | None:
         return None
 
 
+def flatten_list(list_to_flatten: list) -> list:
+    return [x for sublist in list_to_flatten for x in (sublist if isinstance(sublist, list) else [sublist])]
+
+#
+# DEPRECATED
+#
+
 def get_grid(input_data: str) -> list:
     """
     Format an input string into a grid so that the rows and columns can be processed with x, y coordinates
@@ -194,7 +285,3 @@ def in_bounds(y: int, x: int, grid: list) -> bool:
     rows = len(grid)
     cols = len(grid[0])
     return 0 <= y < cols and 0 <= x < rows
-
-
-def flatten_list(list_to_flatten: list) -> list:
-    return [x for sublist in list_to_flatten for x in (sublist if isinstance(sublist, list) else [sublist])]
