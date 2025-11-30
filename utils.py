@@ -4,8 +4,7 @@ from datetime import datetime
 from heapq import heapify, heappop, heappush
 from pathlib import Path
 from time import time_ns
-from typing import Callable, Literal
-from typing_extensions import Any
+from typing import Any, Callable, Literal
 
 from aocd.models import Puzzle
 
@@ -348,7 +347,7 @@ def __get_input_data(puzzle: Puzzle, example_data: bool = False, part_b: bool = 
     return input_data
 
 
-def solve_puzzle_part(puzzle: Puzzle, solver_func: Callable, part: Literal['a', 'b'], example_data: bool = False, submit_solution: bool = True) -> None:
+def solve_puzzle_part(puzzle: Puzzle, solver_func: Callable, part: Literal['a', 'b'], example_data: bool = False, submit_solution: bool = True) -> str | None:
     """
     Execute the function and measures the needed time to solve the puzzle.
     Prints the solution and measured time
@@ -370,6 +369,10 @@ def solve_puzzle_part(puzzle: Puzzle, solver_func: Callable, part: Literal['a', 
     input_data = __get_input_data(puzzle, example_data, part_b=part == 'b')
     start = time_ns()
     solution = solver_func(input_data)
+    if solution:
+        solution = str(solution)
+    else:
+        return None
     end = time_ns()
     elapsed = (end - start) / 1e9
     if elapsed >= 1:
@@ -384,7 +387,7 @@ def solve_puzzle_part(puzzle: Puzzle, solver_func: Callable, part: Literal['a', 
         setattr(puzzle, f'answer_{part}', solution)
     print()
 
-    return None
+    return solution
 
 
 def input_data_to_list(input_data: str, splitter: str = '\n') -> list:
