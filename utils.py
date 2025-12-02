@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 from dataclasses import dataclass
 from datetime import datetime
@@ -20,7 +22,7 @@ class Point:
         yield self.y
         yield self.x
     
-    def __add__(self, other: "Point") -> "Point":
+    def __add__(self, other: Point) -> Point:
         """Add two Point instances by summing their coordinates."""
         return Point(y=self.y + other.y, x=self.x + other.x)
 
