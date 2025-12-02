@@ -177,8 +177,8 @@ class Grid:
             raise ValueError("include_straight or include_diagonal must be True")
 
         neighbors = set()
-        for dy, dx in directions:
-            neighbor = Point(p.y + dy, p.x + dx)
+        for d in directions:
+            neighbor = p + d
             if self.in_bounds(neighbor):
                 neighbors.add(neighbor)
         return neighbors
