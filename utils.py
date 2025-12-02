@@ -1,5 +1,5 @@
 import logging
-from collections import namedtuple
+from dataclasses import dataclass
 from datetime import datetime
 from heapq import heapify, heappop, heappush
 from pathlib import Path
@@ -10,7 +10,20 @@ from aocd.models import Puzzle
 
 from shared.logger import logger
 
-Point = namedtuple("Point", ("y", "x"))
+
+@dataclass(frozen=True, order=True)
+class Point:
+    y: int
+    x: int
+
+    def __iter__(self):
+        yield self.y
+        yield self.x
+    
+    def __add__(self, other: "Point") -> "Point":
+        """Add two Point instances by summing their coordinates."""
+        return Point(y=self.y + other.y, x=self.x + other.x)
+
 
 DIRECTIONS = {
     # dy , dx
@@ -53,13 +66,6 @@ CAPITAL_LETTER = ('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M
 NUMBERS_STR = ('1', '2', '3', '4', '5', '6', '7', '8', '9', '0')
 NUMBERS_INT = (1, 2, 3, 4, 5, 6, 7, 8, 9, 0)
 
-
-def add_points(p1: Point, p2: Point) -> Point:
-    """Add two Point instances by summing their coordinates."""
-    return Point(
-        y=p1.y + p2.y,
-        x=p1.x + p2.x
-    )
 
 class Grid:
     def __init__(self, input_data: str, as_int: bool = False):
