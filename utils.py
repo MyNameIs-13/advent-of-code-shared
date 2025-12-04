@@ -97,7 +97,7 @@ class Grid:
         """
         for y, row in enumerate(self.grid):
             for x, value in enumerate(row):
-                yield y, x, value
+                yield Point(y, x), value
     
     def __getitem__(self, p: Point) -> str | None:
         """
