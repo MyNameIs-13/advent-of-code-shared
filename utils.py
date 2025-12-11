@@ -3,6 +3,7 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass
 from datetime import datetime
+from functools import lru_cache
 from heapq import heapify, heappop, heappush
 from pathlib import Path
 from time import time_ns
@@ -186,6 +187,42 @@ class Grid:
         return neighbors
 
 class Graph:
+    def __init__(self):
+        self._graph = {}
+        self._count_paths_predecessors: dict = {}
+        self._count_paths_bitmask_for_node_function = None
+        
+    @property
+    def graph(self) -> dict:
+        return self._graph
+                
+    def add_connection(self, from_node: Any, to_node: Any, weight: int) -> None:
+        Graph.add_edge(self._graph, from_node, to_node, weight)
+        
+    def compute_shortest_paths(self, start_node: Any, destination_node: Any, return_all_paths: bool = False) -> tuple[list[list], int | None]:
+        return Graph.get_shortest_paths(self._graph, start_node, destination_node, return_all_paths)
+    
+    def count_shortest_paths(self, start_node: Any, destination_node: Any, bitmask_goal: int = 0, bitmask: int = 0, bitmask_for_node_function: Callable | None = None) -> int:
+        _, predecessors = Graph._do_dijkstra(self._graph, start_node, return_all_paths=True)
+        self._count_paths_predecessors = predecessors
+        self._count_paths_bitmask_for_node_function = bitmask_for_node_function
+        return self._count_paths_from_start_to_end(start_node, destination_node, bitmask_goal, bitmask)
+    
+    @lru_cache(maxsize=None)
+    def _count_paths_from_start_to_end(self, start_node: Any, destination_node: Any, bitmask_goal: int, bitmask: int) -> int:
+        if destination_node == start_node and bitmask == bitmask_goal:
+            return 1
+        elif destination_node == start_node:
+            return 0
+
+        if callable(self._count_paths_bitmask_for_node_function):
+            bitmask = self._count_paths_bitmask_for_node_function(destination_node, bitmask)
+
+        _predecessors = self._count_paths_predecessors.get(destination_node)
+        if not _predecessors:
+            return 0
+        return sum(self._count_paths_from_start_to_end(start_node, p, bitmask_goal, bitmask) for p in _predecessors)
+        
     @staticmethod
     def add_edge(graph: dict, from_node: Any, to_node: Any, weight: int) -> None:
         graph.setdefault(from_node, {}) # Ensure from_node has an entry in the graph
